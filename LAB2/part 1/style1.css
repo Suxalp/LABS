@@ -1,0 +1,11 @@
+strong {color: red;}
+p {color: blue; text-decoration: underline;}
+
+strong {color: red;}
+.carrot {color: orange;}
+.spinach {color: green;}
+#first {font-style: italic;}
+p {color: blue;}
+body {
+    font: 16px "Comic Sans MS", cursive;
+    }
