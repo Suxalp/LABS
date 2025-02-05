@@ -1,0 +1,440 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>fname3</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-10-12"><meta name="DC.source" content="fname3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Task 1</a></li><li><a href="#4">Task 2: Frequency Resolution</a></li><li><a href="#5">Task 3: MSE of DTFT and DFT/FFT</a></li><li><a href="#7">Task 4: Time-Frequency Representation</a></li><li><a href="#8">Task 5: Image Processing</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [b,a,H,h,t,X,y,Y,Yk,MSE,so,H2f,Is,If,Isf] = fname3
+</pre><pre class="codeinput"><span class="comment">% De La Salle University</span>
+<span class="comment">% Electronics and Communications Engineering Department</span>
+<span class="comment">% Course : LBYCPA4</span>
+<span class="comment">% SECTION :</span>
+<span class="comment">% Submitted by :</span>
+<span class="comment">% Submitted to : Dr. Edwin Sybingco</span>
+<span class="comment">% Exercise 3 : Frequency Representations of Signals and Systems</span>
+</pre><h2 id="3">Task 1</h2><p>Generate the time index for the impulse response</p><pre class="codeinput">n = 0:31;
+
+<span class="comment">% Specify the filter coefficients of filter 1 to 4 using the cell array</span>
+<span class="comment">% b{k} and a{k} where k = 1,2,3, and 4. Also determine the following</span>
+<span class="comment">%</span>
+<span class="comment">% impulse response and store it in h{k}</span>
+<span class="comment">% Frequency response and store them in H{k}</span>
+
+<span class="comment">% Filter 1</span>
+b{1} = (1/8)*[1 1];
+a{1} = [1 -3/4];
+
+<span class="comment">% Filter 2</span>
+b{2} = (1/8)*[1 -1];
+a{2} = [1 3/4];
+
+<span class="comment">% Filter 3</span>
+b{3} = (7/32)*[1 0 -1];
+a{3} = [1 0 9/16];
+
+<span class="comment">% Filter 4</span>
+b{4} = (25/32)*[1 0 1];
+a{4} = [1 0 9/16];
+
+<span class="comment">% Complete the table below by categorizing the filter type as lowpass,</span>
+<span class="comment">% highpass, bandpass, or bandstop</span>
+
+t = table([1;2;3;4], <span class="string">'VariableName'</span>, {<span class="string">'FilterNumber'</span>});
+t.FilterType(1) = {<span class="string">'Lowpass'</span>};
+t.FilterType(2) = {<span class="string">'Highpass'</span>};
+t.FilterType(3) = {<span class="string">'Bandpass'</span>};
+t.FilterType(4) = {<span class="string">'Bandstop'</span>};
+
+<span class="comment">% Frequency and impulse responses with visualization</span>
+H = cell(4,1);
+h = cell(4,1);
+<span class="keyword">for</span> k = 1:4
+    <span class="comment">% Frequency response</span>
+    [H{k}, w] = freqz(b{k}, a{k}, 512);
+    <span class="comment">% Impulse response</span>
+    h{k} = impz(b{k}, a{k}, length(n));
+
+    <span class="comment">% Visualization</span>
+    figure(k);
+    subplot(2,2,1); <span class="comment">% Top left - Magnitude response</span>
+    plot(w/pi, abs(H{k}));
+    title([<span class="string">'Filter '</span>, num2str(k), <span class="string">' Magnitude Response'</span>]);
+    ylabel(<span class="string">'Magnitude'</span>);
+
+    subplot(2,2,2); <span class="comment">% Top right - Pole-zero plot</span>
+    zplane(b{k}, a{k});
+    title([<span class="string">'Filter '</span>, num2str(k), <span class="string">' Pole-Zero Plot'</span>]);
+
+    subplot(2,2,3); <span class="comment">% Bottom left - Phase response</span>
+    plot(w/pi, angle(H{k}));
+    title([<span class="string">'Filter '</span>, num2str(k), <span class="string">' Phase Response'</span>]);
+    ylabel(<span class="string">'Phase (radians)'</span>);
+
+    subplot(2,2,4); <span class="comment">% Bottom right - Impulse response</span>
+    stem(n, h{k});
+    xlabel(<span class="string">'n'</span>);
+    ylabel(<span class="string">'h[n]'</span>);
+    title([<span class="string">'Filter '</span>, num2str(k), <span class="string">' Impulse Response - '</span>, t.FilterType{k}]);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="fname3_01.png" alt=""> <img vspace="5" hspace="5" src="fname3_02.png" alt=""> <img vspace="5" hspace="5" src="fname3_03.png" alt=""> <img vspace="5" hspace="5" src="fname3_04.png" alt=""> <h2 id="4">Task 2: Frequency Resolution</h2><pre class="codeinput">N = [25, 50, 75, 100, 200, 1000];
+X = cell(1, length(N));
+
+<span class="keyword">for</span> k = 1:length(N)
+    n = 0:N(k)-1;
+    x{k} = cos(0.2*pi*n) + cos(0.22*pi*n) + cos(0.6*pi*n);
+    X{k} = fft(x{k}, 1024);
+     X{k} = X{k}(1:512);
+
+    <span class="comment">% Visualization</span>
+    figure(5);
+    subplot(3, 2, k);
+    w = linspace(0, pi, 512);
+    plot(w/pi, abs(X{k}))
+    title([<span class="string">'N = '</span>, num2str(N(k))])
+    ylabel(<span class="string">'Magnitude'</span>)
+    [pks, locs] = findpeaks(abs(X{k}), <span class="string">'MinPeakProminence'</span>, max(abs(X{k}))/2);
+    hold <span class="string">on</span>
+    plot(w(locs)/pi, pks, <span class="string">'ro'</span>)
+    hold <span class="string">off</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="fname3_05.png" alt=""> <h2 id="5">Task 3: MSE of DTFT and DFT/FFT</h2><pre class="codeinput">b1 = 0.0168 * [1 0 -2 0 1];
+a1 = [1 -2.5333 3.2089 -2.0520 0.6561];
+N = [8 16 32 64];
+Y = cell(1, length(N));
+Yk = cell(1, length(N));
+y = cell(1, length(N));
+MSE = zeros(1, length(N));
+
+<span class="keyword">for</span> k = 1:length(N)
+</pre><pre class="codeinput">    y{k} = filter(b1, a1, [1 zeros(1, N(k)-1)]);
+
+    <span class="comment">% Compute DTFT</span>
+    [Y{k}, wF] = freqz(y{k}, 1, 1024, <span class="string">"whole"</span>);
+
+    <span class="comment">% Compute DFT with N(k) points</span>
+    Yk{k} = fft(y{k}, N(k));
+
+     Yint = interp1(2*pi*(0:N(k)-1)/N(k), abs(Yk{k}), wF, <span class="string">'linear'</span>, <span class="string">'extrap'</span>);
+    <span class="comment">% Compute MSE</span>
+    MSE(k) = mean((abs(Y{k}) - Yint).^2);
+
+
+    <span class="comment">% Visualization of DTFT and DFT (Figure 6)</span>
+    figure(6);
+    subplot(2, 2, k);
+    plot(wF/pi, abs(Y{k}))
+    hold <span class="string">on</span>
+    stem(2*pi*(0:N(k)-1)/N(k)/pi, abs(Yk{k}), <span class="string">'r'</span>)
+    hold <span class="string">off</span>
+    title([<span class="string">'Y overlaid Yk{'</span>, num2str(k), <span class="string">'}'</span>])
+    xlabel(<span class="string">'Normalized Frequency (\times\pi rad/sample)'</span>)
+    ylabel(<span class="string">'Magnitude'</span>)
+    legend(<span class="string">'DTFT'</span>, <span class="string">'DFT'</span>)
+
+
+<span class="comment">% Visualization of MSE (Figure 7)</span>
+figure(7);
+plot(N, MSE, <span class="string">'-o'</span>); title(<span class="string">'Mean Square Error vs N'</span>);
+xlabel(<span class="string">'N'</span>); ylabel(<span class="string">'MSE'</span>);
+</pre><img vspace="5" hspace="5" src="fname3_06.png" alt=""> <img vspace="5" hspace="5" src="fname3_07.png" alt=""> <img vspace="5" hspace="5" src="fname3_10.png" alt=""> <img vspace="5" hspace="5" src="fname3_11.png" alt=""> <img vspace="5" hspace="5" src="fname3_14.png" alt=""> <img vspace="5" hspace="5" src="fname3_15.png" alt=""> <img vspace="5" hspace="5" src="fname3_18.png" alt=""> <img vspace="5" hspace="5" src="fname3_19.png" alt=""> <h2 id="7">Task 4: Time-Frequency Representation</h2><pre class="codeinput">[s, Fs] = audioread(<span class="string">'RollingInTheDeep.wav'</span>);
+so = filter(b1, a1, s);
+
+figure(8);
+subplot(2, 1, 1);
+spectrogram(s, hanning(512), 128, 512, Fs, <span class="string">'yaxis'</span>); title(<span class="string">'Original Audio'</span>);
+subplot(2, 1, 2);
+spectrogram(so, hanning(512), 128, 512, Fs, <span class="string">'yaxis'</span>); title(<span class="string">'Filtered Audio'</span>);
+</pre><img vspace="5" hspace="5" src="fname3_08.png" alt=""> <img vspace="5" hspace="5" src="fname3_12.png" alt=""> <img vspace="5" hspace="5" src="fname3_16.png" alt=""> <img vspace="5" hspace="5" src="fname3_20.png" alt=""> <h2 id="8">Task 5: Image Processing</h2><pre class="codeinput">h2 = 0.142 * [0 1 2; -1 0 1; -2 -1 0];
+H2f = fftshift(fft2(h2, 512, 512));
+
+I = imread(<span class="string">'lena_gray.tiff'</span>);
+Is = fftshift(fft2(I));
+If = imfilter(I, h2, <span class="string">'conv'</span>);
+
+min_val = min(If(:));
+If = If - min_val; <span class="comment">% Shift so minimum is zero</span>
+If = uint8(If);
+
+Isf = fftshift(fft2(If));
+
+<span class="comment">% Visualization of spectra</span>
+figure(9)
+subplot(2,3,1)
+mesh(abs(H2f))
+title(<span class="string">'Spectrum of the Filter'</span>)
+subplot(2,3,2)
+mesh(abs(Is))
+title(<span class="string">'Spectrum of the Original Image'</span>)
+subplot(2,3,3)
+mesh(abs(Isf))
+title(<span class="string">'Spectrum of the Filtered Image'</span>)
+subplot(2,3,4)
+imshow(I)
+title(<span class="string">'Original Image'</span>)
+subplot(2,3,5)
+imshow(If)
+title(<span class="string">'Filtered Image'</span>)
+</pre><img vspace="5" hspace="5" src="fname3_09.png" alt=""> <img vspace="5" hspace="5" src="fname3_13.png" alt=""> <img vspace="5" hspace="5" src="fname3_17.png" alt=""> <img vspace="5" hspace="5" src="fname3_21.png" alt=""> <pre class="codeinput"><span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans =
+
+  1&times;4 cell array
+
+  Columns 1 through 3
+
+    {[0.1250 0.1250]}    {[0.1250 -0.1250]}    {[0.2188 0 -0.2188]}
+
+  Column 4
+
+    {[0.7812 0 0.7812]}
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function [b,a,H,h,t,X,y,Y,Yk,MSE,so,H2f,Is,If,Isf] = fname3
+% De La Salle University
+% Electronics and Communications Engineering Department
+% Course : LBYCPA4
+% SECTION : 
+% Submitted by : 
+% Submitted to : Dr. Edwin Sybingco
+% Exercise 3 : Frequency Representations of Signals and Systems
+
+%% Task 1
+% Generate the time index for the impulse response
+n = 0:31;
+
+% Specify the filter coefficients of filter 1 to 4 using the cell array
+% b{k} and a{k} where k = 1,2,3, and 4. Also determine the following
+% 
+% impulse response and store it in h{k}
+% Frequency response and store them in H{k}
+
+% Filter 1
+b{1} = (1/8)*[1 1];
+a{1} = [1 -3/4];
+
+% Filter 2
+b{2} = (1/8)*[1 -1];
+a{2} = [1 3/4];
+
+% Filter 3
+b{3} = (7/32)*[1 0 -1];
+a{3} = [1 0 9/16];
+
+% Filter 4
+b{4} = (25/32)*[1 0 1];
+a{4} = [1 0 9/16];
+
+% Complete the table below by categorizing the filter type as lowpass,
+% highpass, bandpass, or bandstop
+
+t = table([1;2;3;4], 'VariableName', {'FilterNumber'});
+t.FilterType(1) = {'Lowpass'};
+t.FilterType(2) = {'Highpass'};
+t.FilterType(3) = {'Bandpass'};
+t.FilterType(4) = {'Bandstop'};
+
+% Frequency and impulse responses with visualization
+H = cell(4,1);
+h = cell(4,1);
+for k = 1:4
+    % Frequency response
+    [H{k}, w] = freqz(b{k}, a{k}, 512);
+    % Impulse response
+    h{k} = impz(b{k}, a{k}, length(n));
+
+    % Visualization
+    figure(k);
+    subplot(2,2,1); % Top left - Magnitude response
+    plot(w/pi, abs(H{k}));
+    title(['Filter ', num2str(k), ' Magnitude Response']);
+    ylabel('Magnitude');
+    
+    subplot(2,2,2); % Top right - Pole-zero plot
+    zplane(b{k}, a{k});
+    title(['Filter ', num2str(k), ' Pole-Zero Plot']);
+    
+    subplot(2,2,3); % Bottom left - Phase response
+    plot(w/pi, angle(H{k}));
+    title(['Filter ', num2str(k), ' Phase Response']);
+    ylabel('Phase (radians)');
+    
+    subplot(2,2,4); % Bottom right - Impulse response
+    stem(n, h{k});
+    xlabel('n');
+    ylabel('h[n]');
+    title(['Filter ', num2str(k), ' Impulse Response - ', t.FilterType{k}]);
+end
+
+%% Task 2: Frequency Resolution
+N = [25, 50, 75, 100, 200, 1000];
+X = cell(1, length(N));
+
+for k = 1:length(N)
+    n = 0:N(k)-1;
+    x{k} = cos(0.2*pi*n) + cos(0.22*pi*n) + cos(0.6*pi*n);
+    X{k} = fft(x{k}, 1024);
+     X{k} = X{k}(1:512);
+    
+    % Visualization
+    figure(5);
+    subplot(3, 2, k);
+    w = linspace(0, pi, 512);
+    plot(w/pi, abs(X{k}))
+    title(['N = ', num2str(N(k))])
+    ylabel('Magnitude')
+    [pks, locs] = findpeaks(abs(X{k}), 'MinPeakProminence', max(abs(X{k}))/2);
+    hold on
+    plot(w(locs)/pi, pks, 'ro')
+    hold off
+end
+
+%% Task 3: MSE of DTFT and DFT/FFT
+b1 = 0.0168 * [1 0 -2 0 1];
+a1 = [1 -2.5333 3.2089 -2.0520 0.6561];
+N = [8 16 32 64];
+Y = cell(1, length(N)); 
+Yk = cell(1, length(N)); 
+y = cell(1, length(N));
+MSE = zeros(1, length(N));
+
+for k = 1:length(N)
+    y{k} = filter(b1, a1, [1 zeros(1, N(k)-1)]);
+    
+    % Compute DTFT
+    [Y{k}, wF] = freqz(y{k}, 1, 1024, "whole"); 
+    
+    % Compute DFT with N(k) points
+    Yk{k} = fft(y{k}, N(k));   
+  
+     Yint = interp1(2*pi*(0:N(k)-1)/N(k), abs(Yk{k}), wF, 'linear', 'extrap');
+    % Compute MSE
+    MSE(k) = mean((abs(Y{k}) - Yint).^2);
+
+
+    % Visualization of DTFT and DFT (Figure 6)
+    figure(6);
+    subplot(2, 2, k);
+    plot(wF/pi, abs(Y{k}))
+    hold on
+    stem(2*pi*(0:N(k)-1)/N(k)/pi, abs(Yk{k}), 'r')
+    hold off
+    title(['Y overlaid Yk{', num2str(k), '}'])
+    xlabel('Normalized Frequency (\times\pi rad/sample)')
+    ylabel('Magnitude')
+    legend('DTFT', 'DFT')
+    
+
+% Visualization of MSE (Figure 7)
+figure(7);
+plot(N, MSE, '-o'); title('Mean Square Error vs N');
+xlabel('N'); ylabel('MSE');
+
+%% Task 4: Time-Frequency Representation
+[s, Fs] = audioread('RollingInTheDeep.wav');
+so = filter(b1, a1, s);
+
+figure(8);
+subplot(2, 1, 1);
+spectrogram(s, hanning(512), 128, 512, Fs, 'yaxis'); title('Original Audio');
+subplot(2, 1, 2);
+spectrogram(so, hanning(512), 128, 512, Fs, 'yaxis'); title('Filtered Audio');
+
+%% Task 5: Image Processing
+h2 = 0.142 * [0 1 2; -1 0 1; -2 -1 0];
+H2f = fftshift(fft2(h2, 512, 512));
+
+I = imread('lena_gray.tiff');
+Is = fftshift(fft2(I));
+If = imfilter(I, h2, 'conv');
+
+min_val = min(If(:));
+If = If - min_val; % Shift so minimum is zero
+If = uint8(If);
+
+Isf = fftshift(fft2(If));
+
+% Visualization of spectra
+figure(9)
+subplot(2,3,1)
+mesh(abs(H2f))
+title('Spectrum of the Filter')
+subplot(2,3,2)
+mesh(abs(Is))
+title('Spectrum of the Original Image')
+subplot(2,3,3)
+mesh(abs(Isf))
+title('Spectrum of the Filtered Image')
+subplot(2,3,4)
+imshow(I)
+title('Original Image')
+subplot(2,3,5)
+imshow(If)
+title('Filtered Image')
+end
+
+##### SOURCE END #####
+--></body></html>

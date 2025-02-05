@@ -1,0 +1,572 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>fname2</title><meta name="generator" content="MATLAB 9.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2024-09-24"><meta name="DC.source" content="fname2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#3">Task 1</a></li><li><a href="#4">Task 2</a></li><li><a href="#5">Generate the output sequences y for each filter</a></li><li><a href="#6">Visualization of input/output for the four filters</a></li><li><a href="#7">Determine the type of filter</a></li><li><a href="#8">Task 3</a></li><li><a href="#9">Task 4</a></li><li><a href="#10">Visualization (Figure 3)</a></li><li><a href="#11">Task 5</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [b1,b2,b3,b4,a1,a2,a3,a4,x,y,t,h1,h2,h3,h4,g1,g2,g3,g4,Same,s1,s2,s,so,Rejected,I1,I2,I3]=fname2
+</pre><pre class="codeinput"><span class="comment">% De La Salle University</span>
+<span class="comment">% Electronics and Computer Engineering Department</span>
+<span class="comment">%</span>
+<span class="comment">% Course        : LBYCPA4</span>
+<span class="comment">% SECTION       : EQ4</span>
+<span class="comment">% Submitted by  : Jared Ong</span>
+<span class="comment">% Submitted to  : Dr. Edwin Sybingco</span>
+<span class="comment">%</span>
+<span class="comment">% Exercise 2    : Discrete-time Systems</span>
+<span class="comment">%</span>
+<span class="comment">% Note: Check the instructions given in canvas</span>
+</pre><h2 id="3">Task 1</h2><pre class="codeinput"><span class="comment">%Encode the corresponding numerator coefficients and denominator</span>
+<span class="comment">%coefficients of the rational transfer functions of the causal LTI systems</span>
+<span class="comment">% Use the following variables for the numerator coefficients: b1, b2, b3, and b4</span>
+<span class="comment">% Use the following variables for the denominator coefficients: a1, a2, a3, and a4</span>
+
+        b1 = [0.16, -0.48, 0.48, -0.16];
+        a1 = [1, 0.13, 0.52, 0.3];
+
+        b2 = [0.634, 0, -0.634];
+        a2 = [1, 0, -0.268];
+
+        b3 = [0.634, 0, 0.634];
+        a3 = [1, 0, 0.268];
+
+        b4 = [1, -5, 10];
+        a4 = [10, -5, 1];
+</pre><h2 id="4">Task 2</h2><p>Generate the signal x</p><pre class="codeinput">        n = 0:24;  <span class="comment">% Time index</span>
+        wo = [0, pi/4, pi/2, 3*pi/4, pi];  <span class="comment">% Frequency values</span>
+
+        <span class="comment">% Create the matrix x for sinusoidal sequences</span>
+        x = zeros(length(n), length(wo));  <span class="comment">% Preallocate matrix for efficiency</span>
+        <span class="keyword">for</span> i = 1:length(wo)
+            x(:,i) = cos(wo(i)*n);  <span class="comment">% Fill each column with the respective cosine wave</span>
+        <span class="keyword">end</span>
+</pre><h2 id="5">Generate the output sequences y for each filter</h2><pre class="codeinput">        y = zeros(length(n), length(wo), 4);  <span class="comment">% Preallocate matrix for outputs</span>
+
+        <span class="comment">% Apply filter 1 (system a)</span>
+        <span class="keyword">for</span> i = 1:length(wo)
+            y(:,i,1) = filter(b1, a1, x(:,i));
+        <span class="keyword">end</span>
+
+        <span class="comment">% Apply filter 2 (system b)</span>
+        <span class="keyword">for</span> i = 1:length(wo)
+            y(:,i,2) = filter(b2, a2, x(:,i));
+        <span class="keyword">end</span>
+
+        <span class="comment">% Apply filter 3 (system c)</span>
+        <span class="keyword">for</span> i = 1:length(wo)
+            y(:,i,3) = filter(b3, a3, x(:,i));
+        <span class="keyword">end</span>
+
+        <span class="comment">% Apply filter 4 (system d)</span>
+        <span class="keyword">for</span> i = 1:length(wo)
+            y(:,i,4) = filter(b4, a4, x(:,i));
+        <span class="keyword">end</span>
+</pre><h2 id="6">Visualization of input/output for the four filters</h2><pre class="codeinput">        figure;
+        <span class="keyword">for</span> i = 1:4
+            subplot(4,1,i);  <span class="comment">% Create a subplot for each filter</span>
+            plot(n, x(:,1), <span class="string">'k'</span>, <span class="string">'LineWidth'</span>, 1.5); hold <span class="string">on</span>;  <span class="comment">% Input signal (first column of x)</span>
+            plot(n, y(:,1,i), <span class="string">'--r'</span>, <span class="string">'LineWidth'</span>, 1.5);  <span class="comment">% Output for filter i</span>
+            title([<span class="string">'Filter '</span> num2str(i) <span class="string">' Input/Output'</span>]);
+            xlabel(<span class="string">'n'</span>);
+            ylabel(<span class="string">'Amplitude'</span>);
+            legend(<span class="string">'Input'</span>, <span class="string">'Output'</span>);
+            hold <span class="string">off</span>;
+        <span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="fname2_01.png" alt=""> <h2 id="7">Determine the type of filter</h2><p>Based on the visualization, you can now manually categorize the filters.</p><pre class="codeinput">        <span class="comment">% Complete the table with filter types</span>
+        t = table([1;2;3;4], <span class="string">'VariableNames'</span>, {<span class="string">'FilterNumber'</span>});
+        t.FilterType(1) = {<span class="string">'lowpass'</span>};  <span class="comment">% Example entry</span>
+        t.FilterType(2) = {<span class="string">'highpass'</span>}; <span class="comment">% Example entry</span>
+        t.FilterType(3) = {<span class="string">'bandpass'</span>}; <span class="comment">% Example entry</span>
+        t.FilterType(4) = {<span class="string">'bandstop'</span>}; <span class="comment">% Example entry</span>
+
+        disp(t);
+</pre><pre class="codeoutput">    FilterNumber     FilterType 
+    ____________    ____________
+
+         1          {'lowpass' }
+         2          {'highpass'}
+         3          {'bandpass'}
+         4          {'bandstop'}
+
+</pre><h2 id="8">Task 3</h2><pre class="codeinput">        <span class="comment">% Impulse input</span>
+        n = 0:24;  <span class="comment">% Time index</span>
+        impulse = [1; zeros(24, 1)];  <span class="comment">% Impulse input: &#948;[n]</span>
+
+        <span class="comment">% Generate the impulse response h1, h2, h3, and h4 using the filter function</span>
+        h1 = filter(b1, a1, impulse);  <span class="comment">% System 1</span>
+        h2 = filter(b2, a2, impulse);  <span class="comment">% System 2</span>
+        h3 = filter(b3, a3, impulse);  <span class="comment">% System 3</span>
+        h4 = filter(b4, a4, impulse);  <span class="comment">% System 4</span>
+
+        <span class="comment">% Generate g1, g2, g3, and g4 using partial fraction expansion (residuez)</span>
+        g1 = zeros(size(n));
+        g2 = zeros(size(n));
+        g3 = zeros(size(n));
+        g4 = zeros(size(n));
+
+        <span class="comment">% For g1 (system 1)</span>
+        [r1, p1, k1] = residuez(b1, a1);  <span class="comment">% Partial fraction expansion</span>
+        <span class="keyword">for</span> i = 1:length(r1)
+            g1 = g1 + r1(i) * (p1(i).^n);  <span class="comment">% Sum the contribution of each residue/pole</span>
+        <span class="keyword">end</span>
+        g1 = g1 + k1;  <span class="comment">% Add direct term if any</span>
+
+        <span class="comment">% For g2 (system 2)</span>
+        [r2, p2, k2] = residuez(b2, a2);
+        <span class="keyword">for</span> i = 1:length(r2)
+            g2 = g2 + r2(i) * (p2(i).^n);
+        <span class="keyword">end</span>
+        g2 = g2 + k2;
+
+        <span class="comment">% For g3 (system 3)</span>
+        [r3, p3, k3] = residuez(b3, a3);
+        <span class="keyword">for</span> i = 1:length(r3)
+            g3 = g3 + r3(i) * (p3(i).^n);
+        <span class="keyword">end</span>
+        g3 = g3 + k3;
+
+        <span class="comment">% For g4 (system 4)</span>
+        [r4, p4, k4] = residuez(b4, a4);
+        <span class="keyword">for</span> i = 1:length(r4)
+            g4 = g4 + r4(i) * (p4(i).^n);
+        <span class="keyword">end</span>
+        g4 = g4 + k4;
+
+        <span class="comment">% Compare hi and gi for i = 1, 2, 3, 4. Store the result in the variable Same.</span>
+        <span class="comment">% Same is a 1x4 vector. The values are either 1 (same) or 0 (not same).</span>
+        Same = zeros(1, 4);  <span class="comment">% Preallocate comparison result</span>
+
+        Same(1) = isequal(h1, g1);  <span class="comment">% Compare h1 and g1</span>
+        Same(2) = isequal(h2, g2);  <span class="comment">% Compare h2 and g2</span>
+        Same(3) = isequal(h3, g3);  <span class="comment">% Compare h3 and g3</span>
+        Same(4) = isequal(h4, g4);  <span class="comment">% Compare h4 and g4</span>
+
+        <span class="comment">% Display the comparison results</span>
+        disp(<span class="string">'Comparison Results (Not Same):'</span>);
+        disp(Same);  <span class="comment">% 1 for same, 0 for not same</span>
+
+        <span class="comment">% Create the visualization of figure 2</span>
+        figure;
+        <span class="comment">% h1[n] and g1[n]</span>
+        subplot(4, 2, 1); stem(n, h1, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'h1[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        subplot(4, 2, 2); stem(n, g1, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'g1[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+
+        <span class="comment">% h2[n] and g2[n]</span>
+        subplot(4, 2, 3); stem(n, h2, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'h2[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        subplot(4, 2, 4); stem(n, g2, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'g2[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+
+        <span class="comment">% h3[n] and g3[n]</span>
+        subplot(4, 2, 5); stem(n, h3, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'h3[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        subplot(4, 2, 6); stem(n, g3, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'g3[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+
+        <span class="comment">% h4[n] and g4[n]</span>
+        subplot(4, 2, 7); stem(n, h4, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'h4[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        subplot(4, 2, 8); stem(n, g4, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1.5); title(<span class="string">'g4[n]'</span>); xlabel(<span class="string">'n'</span>); ylabel(<span class="string">'Amplitude'</span>);
+</pre><pre class="codeoutput">Comparison Results (Not Same):
+     0     0     0     0
+
+</pre><img vspace="5" hspace="5" src="fname2_02.png" alt=""> <h2 id="9">Task 4</h2><pre class="codeinput">        n1 = 0:149;  <span class="comment">% Time index</span>
+
+        <span class="comment">% Generate s1[n1], s2[n1], and s[n1] as defined</span>
+        s1 = cos((pi/10) * n1);
+        s2 = cos((pi/4) * n1);
+        s = s1 + s2;
+
+        <span class="comment">% Define the filter coefficients for the Notch filter based on the given transfer function H(z)</span>
+        b = [0.9543 -1.9086 0.9543];  <span class="comment">% Numerator coefficients</span>
+        a = [1 -1.9*cos(pi/4) 0.9025];  <span class="comment">% Denominator coefficients</span>
+
+        <span class="comment">% Apply the notch filter to s[n1] to get s0[n1]</span>
+        s0 = filter(b, a, s);
+
+        <span class="comment">% Answer the question: Which of the sequences is rejected by the Notch filter (s1 or s2)?</span>
+        <span class="comment">% The notch filter is designed to reject the frequency corresponding to s2[n1] (cos(pi/4 * n1))</span>
+        Rejected = <span class="string">'s2'</span>;  <span class="comment">% The Notch filter rejects s2</span>
+
+        <span class="comment">% Display the rejected signal</span>
+        disp([<span class="string">'The rejected signal is: '</span>, Rejected]);
+</pre><pre class="codeoutput">The rejected signal is: s2
+</pre><h2 id="10">Visualization (Figure 3)</h2><pre class="codeinput">        figure;
+
+        <span class="comment">% s1[n1] overlaid with s0[n1]</span>
+        subplot(3, 1, 1);
+        stem(n1, s1, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); hold <span class="string">on</span>;
+        stem(n1, s0, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1); hold <span class="string">off</span>;
+        title(<span class="string">'s1[n1] overlaid with s0[n1]'</span>);
+        xlabel(<span class="string">'n1'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        legend(<span class="string">'s1[n1]'</span>, <span class="string">'s0[n1]'</span>);
+
+        <span class="comment">% s2[n1] overlaid with s0[n1]</span>
+        subplot(3, 1, 2);
+        stem(n1, s2, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); hold <span class="string">on</span>;
+        stem(n1, s0, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1); hold <span class="string">off</span>;
+        title(<span class="string">'s2[n1] overlaid with s0[n1]'</span>);
+        xlabel(<span class="string">'n1'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        legend(<span class="string">'s2[n1]'</span>, <span class="string">'s0[n1]'</span>);
+
+        <span class="comment">% s[n1] overlaid with s0[n1]</span>
+        subplot(3, 1, 3);
+        stem(n1, s, <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, 1.5); hold <span class="string">on</span>;
+        stem(n1, s0, <span class="string">'b'</span>, <span class="string">'LineWidth'</span>, 1); hold <span class="string">off</span>;
+        title(<span class="string">'s[n1] overlaid with s0[n1]'</span>);
+        xlabel(<span class="string">'n1'</span>); ylabel(<span class="string">'Amplitude'</span>);
+        legend(<span class="string">'s[n1]'</span>, <span class="string">'s0[n1]'</span>);
+</pre><img vspace="5" hspace="5" src="fname2_03.png" alt=""> <img vspace="5" hspace="5" src="fname2_04.png" alt=""> <h2 id="11">Task 5</h2><p>Load the grayscale image lena_gray.tiff</p><pre class="codeinput">        I = imread(<span class="string">"lena_gray.tiff"</span>);
+
+        <span class="comment">% Define the convolution kernels (filters)</span>
+        h1 = [-1 -1 -1; -1 8 -1; -1 -1 -1];  <span class="comment">% Filter h(:,:,1)</span>
+        h2 = [-1 -1 -1; -1 9 -1; -1 -1 -1];  <span class="comment">% Filter h(:,:,2)</span>
+        h3 = [0 1 2; -1 0 1; -2 -1 0];       <span class="comment">% Filter h(:,:,3)</span>
+
+        <span class="comment">% Apply filter2 with 'same' option to keep the output size the same as the input</span>
+        I1 = filter2(h1, I, <span class="string">'same'</span>);
+        I2 = filter2(h2, I, <span class="string">'same'</span>);
+        I3 = filter2(h3, I, <span class="string">'same'</span>);
+
+        <span class="comment">% Convert the output images to uint8</span>
+        I1 = uint8(I1);
+        I2 = uint8(I2);
+        I3 = uint8(I3);
+
+        <span class="comment">% Original and filtered images</span>
+        figure;
+
+        subplot(1, 3, 1);
+        imshow(I);
+        title(<span class="string">'I1'</span>);
+
+        subplot(1, 3, 2);
+        imshow(I1);
+        title(<span class="string">'I2'</span>);
+
+        subplot(1, 3, 3);
+        imshow(I2);
+        title(<span class="string">'I3'</span>);
+</pre><img vspace="5" hspace="5" src="fname2_05.png" alt=""> <pre class="codeinput"><span class="keyword">end</span>
+</pre><pre class="codeoutput">
+ans =
+
+    0.1600   -0.4800    0.4800   -0.1600
+
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2022b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function [b1,b2,b3,b4,a1,a2,a3,a4,x,y,t,h1,h2,h3,h4,g1,g2,g3,g4,Same,s1,s2,s,so,Rejected,I1,I2,I3]=fname2
+% De La Salle University
+% Electronics and Computer Engineering Department
+%
+% Course        : LBYCPA4
+% SECTION       : EQ4
+% Submitted by  : Jared Ong
+% Submitted to  : Dr. Edwin Sybingco
+%
+% Exercise 2    : Discrete-time Systems
+%
+% Note: Check the instructions given in canvas
+
+%% Task 1
+%Encode the corresponding numerator coefficients and denominator 
+%coefficients of the rational transfer functions of the causal LTI systems
+% Use the following variables for the numerator coefficients: b1, b2, b3, and b4
+% Use the following variables for the denominator coefficients: a1, a2, a3, and a4
+
+        b1 = [0.16, -0.48, 0.48, -0.16];  
+        a1 = [1, 0.13, 0.52, 0.3];       
+        
+        b2 = [0.634, 0, -0.634];           
+        a2 = [1, 0, -0.268];               
+        
+        b3 = [0.634, 0, 0.634];            
+        a3 = [1, 0, 0.268];                
+        
+        b4 = [1, -5, 10];                 
+        a4 = [10, -5, 1];                  
+
+%% Task 2
+        % Generate the signal x
+        n = 0:24;  % Time index
+        wo = [0, pi/4, pi/2, 3*pi/4, pi];  % Frequency values
+        
+        % Create the matrix x for sinusoidal sequences
+        x = zeros(length(n), length(wo));  % Preallocate matrix for efficiency
+        for i = 1:length(wo)
+            x(:,i) = cos(wo(i)*n);  % Fill each column with the respective cosine wave
+        end
+        
+        %% Generate the output sequences y for each filter
+        y = zeros(length(n), length(wo), 4);  % Preallocate matrix for outputs
+        
+        % Apply filter 1 (system a)
+        for i = 1:length(wo)
+            y(:,i,1) = filter(b1, a1, x(:,i));
+        end
+        
+        % Apply filter 2 (system b)
+        for i = 1:length(wo)
+            y(:,i,2) = filter(b2, a2, x(:,i));
+        end
+        
+        % Apply filter 3 (system c)
+        for i = 1:length(wo)
+            y(:,i,3) = filter(b3, a3, x(:,i));
+        end
+        
+        % Apply filter 4 (system d)
+        for i = 1:length(wo)
+            y(:,i,4) = filter(b4, a4, x(:,i));
+        end
+        
+        %% Visualization of input/output for the four filters
+        figure;
+        for i = 1:4
+            subplot(4,1,i);  % Create a subplot for each filter
+            plot(n, x(:,1), 'k', 'LineWidth', 1.5); hold on;  % Input signal (first column of x)
+            plot(n, y(:,1,i), 'REPLACE_WITH_DASH_DASHr', 'LineWidth', 1.5);  % Output for filter i
+            title(['Filter ' num2str(i) ' Input/Output']);
+            xlabel('n');
+            ylabel('Amplitude');
+            legend('Input', 'Output');
+            hold off;
+        end
+        
+        %% Determine the type of filter
+        % Based on the visualization, you can now manually categorize the filters.
+        
+        % Complete the table with filter types
+        t = table([1;2;3;4], 'VariableNames', {'FilterNumber'});
+        t.FilterType(1) = {'lowpass'};  % Example entry
+        t.FilterType(2) = {'highpass'}; % Example entry
+        t.FilterType(3) = {'bandpass'}; % Example entry
+        t.FilterType(4) = {'bandstop'}; % Example entry
+        
+        disp(t);
+
+%% Task 3
+
+        % Impulse input
+        n = 0:24;  % Time index
+        impulse = [1; zeros(24, 1)];  % Impulse input: δ[n]
+        
+        % Generate the impulse response h1, h2, h3, and h4 using the filter function
+        h1 = filter(b1, a1, impulse);  % System 1
+        h2 = filter(b2, a2, impulse);  % System 2
+        h3 = filter(b3, a3, impulse);  % System 3
+        h4 = filter(b4, a4, impulse);  % System 4
+        
+        % Generate g1, g2, g3, and g4 using partial fraction expansion (residuez)
+        g1 = zeros(size(n));
+        g2 = zeros(size(n));
+        g3 = zeros(size(n));
+        g4 = zeros(size(n));
+        
+        % For g1 (system 1)
+        [r1, p1, k1] = residuez(b1, a1);  % Partial fraction expansion
+        for i = 1:length(r1)
+            g1 = g1 + r1(i) * (p1(i).^n);  % Sum the contribution of each residue/pole
+        end
+        g1 = g1 + k1;  % Add direct term if any
+        
+        % For g2 (system 2)
+        [r2, p2, k2] = residuez(b2, a2);
+        for i = 1:length(r2)
+            g2 = g2 + r2(i) * (p2(i).^n);
+        end
+        g2 = g2 + k2;
+        
+        % For g3 (system 3)
+        [r3, p3, k3] = residuez(b3, a3);
+        for i = 1:length(r3)
+            g3 = g3 + r3(i) * (p3(i).^n);
+        end
+        g3 = g3 + k3;
+        
+        % For g4 (system 4)
+        [r4, p4, k4] = residuez(b4, a4);
+        for i = 1:length(r4)
+            g4 = g4 + r4(i) * (p4(i).^n);
+        end
+        g4 = g4 + k4;
+        
+        % Compare hi and gi for i = 1, 2, 3, 4. Store the result in the variable Same.
+        % Same is a 1x4 vector. The values are either 1 (same) or 0 (not same).
+        Same = zeros(1, 4);  % Preallocate comparison result
+        
+        Same(1) = isequal(h1, g1);  % Compare h1 and g1
+        Same(2) = isequal(h2, g2);  % Compare h2 and g2
+        Same(3) = isequal(h3, g3);  % Compare h3 and g3
+        Same(4) = isequal(h4, g4);  % Compare h4 and g4
+        
+        % Display the comparison results
+        disp('Comparison Results (Not Same):');
+        disp(Same);  % 1 for same, 0 for not same
+        
+        % Create the visualization of figure 2
+        figure;
+        % h1[n] and g1[n]
+        subplot(4, 2, 1); stem(n, h1, 'r', 'LineWidth', 1.5); title('h1[n]'); xlabel('n'); ylabel('Amplitude');
+        subplot(4, 2, 2); stem(n, g1, 'b', 'LineWidth', 1.5); title('g1[n]'); xlabel('n'); ylabel('Amplitude');
+        
+        % h2[n] and g2[n]
+        subplot(4, 2, 3); stem(n, h2, 'r', 'LineWidth', 1.5); title('h2[n]'); xlabel('n'); ylabel('Amplitude');
+        subplot(4, 2, 4); stem(n, g2, 'b', 'LineWidth', 1.5); title('g2[n]'); xlabel('n'); ylabel('Amplitude');
+        
+        % h3[n] and g3[n]
+        subplot(4, 2, 5); stem(n, h3, 'r', 'LineWidth', 1.5); title('h3[n]'); xlabel('n'); ylabel('Amplitude');
+        subplot(4, 2, 6); stem(n, g3, 'b', 'LineWidth', 1.5); title('g3[n]'); xlabel('n'); ylabel('Amplitude');
+        
+        % h4[n] and g4[n]
+        subplot(4, 2, 7); stem(n, h4, 'r', 'LineWidth', 1.5); title('h4[n]'); xlabel('n'); ylabel('Amplitude');
+        subplot(4, 2, 8); stem(n, g4, 'b', 'LineWidth', 1.5); title('g4[n]'); xlabel('n'); ylabel('Amplitude');
+
+
+%% Task 4
+
+        n1 = 0:149;  % Time index
+        
+        % Generate s1[n1], s2[n1], and s[n1] as defined
+        s1 = cos((pi/10) * n1); 
+        s2 = cos((pi/4) * n1);  
+        s = s1 + s2;            
+        
+        % Define the filter coefficients for the Notch filter based on the given transfer function H(z)
+        b = [0.9543 -1.9086 0.9543];  % Numerator coefficients
+        a = [1 -1.9*cos(pi/4) 0.9025];  % Denominator coefficients
+        
+        % Apply the notch filter to s[n1] to get s0[n1]
+        s0 = filter(b, a, s);
+        
+        % Answer the question: Which of the sequences is rejected by the Notch filter (s1 or s2)?
+        % The notch filter is designed to reject the frequency corresponding to s2[n1] (cos(pi/4 * n1))
+        Rejected = 's2';  % The Notch filter rejects s2
+        
+        % Display the rejected signal
+        disp(['The rejected signal is: ', Rejected]);
+        
+        %% Visualization (Figure 3)
+        figure;
+        
+        % s1[n1] overlaid with s0[n1]
+        subplot(3, 1, 1);
+        stem(n1, s1, 'r', 'LineWidth', 1.5); hold on;
+        stem(n1, s0, 'b', 'LineWidth', 1); hold off;
+        title('s1[n1] overlaid with s0[n1]');
+        xlabel('n1'); ylabel('Amplitude');
+        legend('s1[n1]', 's0[n1]');
+        
+        % s2[n1] overlaid with s0[n1]
+        subplot(3, 1, 2);
+        stem(n1, s2, 'r', 'LineWidth', 1.5); hold on;
+        stem(n1, s0, 'b', 'LineWidth', 1); hold off;
+        title('s2[n1] overlaid with s0[n1]');
+        xlabel('n1'); ylabel('Amplitude');
+        legend('s2[n1]', 's0[n1]');
+        
+        % s[n1] overlaid with s0[n1]
+        subplot(3, 1, 3);
+        stem(n1, s, 'r', 'LineWidth', 1.5); hold on;
+        stem(n1, s0, 'b', 'LineWidth', 1); hold off;
+        title('s[n1] overlaid with s0[n1]');
+        xlabel('n1'); ylabel('Amplitude');
+        legend('s[n1]', 's0[n1]');
+
+%% Task 5
+        % Load the grayscale image lena_gray.tiff
+        I = imread("lena_gray.tiff");
+        
+        % Define the convolution kernels (filters)
+        h1 = [-1 -1 -1; -1 8 -1; -1 -1 -1];  % Filter h(:,:,1)
+        h2 = [-1 -1 -1; -1 9 -1; -1 -1 -1];  % Filter h(:,:,2)
+        h3 = [0 1 2; -1 0 1; -2 -1 0];       % Filter h(:,:,3)
+        
+        % Apply filter2 with 'same' option to keep the output size the same as the input
+        I1 = filter2(h1, I, 'same');
+        I2 = filter2(h2, I, 'same');
+        I3 = filter2(h3, I, 'same');
+        
+        % Convert the output images to uint8
+        I1 = uint8(I1);
+        I2 = uint8(I2);
+        I3 = uint8(I3);
+        
+        % Original and filtered images
+        figure;
+        
+        subplot(1, 3, 1);
+        imshow(I);
+        title('I1');
+        
+        subplot(1, 3, 2);
+        imshow(I1);
+        title('I2');
+        
+        subplot(1, 3, 3);
+        imshow(I2);
+        title('I3');
+
+
+end
+
+##### SOURCE END #####
+--></body></html>
